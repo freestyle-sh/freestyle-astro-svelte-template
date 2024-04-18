@@ -4,32 +4,50 @@
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/freestyle-sh/freestyle-astro-svelte-template)
 
 [freestyle.sh](https://www.freestyle.sh) is a cloud platform in early development that replaces traditional databases with persistent javascript objects. Write code as if your data is in memory and never think about it's underlying storage mechanisms again. We'll statically and dynamically optimize your code to make efficient queries inside our cloudstate environment.
-```js
-// The @cloudstate decorator makes this class's data persistent.
-// Data can only be augmented and retrieved through the class's
-// methods. There's nothing you have to do for your data to be
-// saved, it's automatically saved for you.
-@cloudstate
-class Counter {
-  count = 0;
-  increment() {
-    return ++ this.count;
+```svelte
+<script context="module" lang="ts">
+  import { cloudstate, useCloudState } from "freestyle-sh";
+
+  // The @cloudstate decorator makes this class's data persistent.
+  // Data can only be augmented and retrieved through the class's
+  // methods. There's nothing you have to do for your data to be
+  // saved, it's automatically saved for you.
+  @cloudstate
+  export class CloudCounter {
+    value = 0;
+    increment() {
+      return ++this.value;
+    }
+    getCount() {
+      return this.value;
+    }
   }
-  getCount() {
-    return this.count;
-  }
-}
+</script>
 
-// Creates a singleton instance of Counter if one doesn't exist
-// and returns an async wrapper around it. Your methods are executed
-// and optimized inside your cloudstate database, not in your web server.
-const counter = useCloudState(Counter);
+<script lang="ts">
+  export let count = 0;
 
-// Call a method on counter from anywhere in your backend or frontend code.
-// Authentication for frontend coming soon.
-await counter.increment();
+  // Creates a singleton instance of Counter if one doesn't exist
+  // and returns an async wrapper around it. Your methods are executed
+  // and optimized inside your cloudstate database, not in your
+  // web server or frontend app.
+  const counter = useCloudState(CloudCounter);
+</script>
 
+<button
+  on:click={() => {
+    // Call a method on counter from anywhere in your backend or
+    // frontend code to update the state in the cloud.
+    // (Authentication for frontend coming soon.)
+    counter.increment().then((c) => {
+      count = c;
+    });
+  }}
+>
+  this button has been clicked {count} times
+</button>
 ```
+
 Astro is the web framework for building content-driven websites like blogs, marketing, and e-commerce. To learn more, visit [their documentation](https://docs.astro.build/en/concepts/why-astro/)
 
 ## Developing Locally
