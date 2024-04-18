@@ -13,7 +13,7 @@
 class Counter {
   count = 0;
   increment() {
-    this.count++;
+    return ++ this.count;
   }
   getCount() {
     return this.count;
@@ -25,9 +25,8 @@ class Counter {
 // and optimized inside your cloudstate database, not in your web server.
 const counter = useCloudState(Counter);
 
-// Call a method on counter from anywhere in your backend code
-// to execute the method on the database. Calling authenticated
-// methods from frontend coming soon.
+// Call a method on counter from anywhere in your backend or frontend code.
+// Authentication for frontend coming soon.
 await counter.increment();
 
 ```
