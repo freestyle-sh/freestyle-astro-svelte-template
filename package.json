@@ -1,5 +1,5 @@
 {
-  "name": "deno-astro-test",
+  "name": "freestyle-astro-svelte-template",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -21,6 +21,6 @@
   "devDependencies": {
     "@astrojs/node": "^8.2.5",
     "@babel/plugin-proposal-decorators": "^7.24.1",
-    "freestyle-sh": "^0.1.5"
+    "freestyle-sh": "^0.1.17"
   }
 }
